@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PreviewImageDialogComponent } from '../preview-image-dialog/preview-image-dialog.component';
 
 @Component({
   selector: 'app-twain-scanner',
