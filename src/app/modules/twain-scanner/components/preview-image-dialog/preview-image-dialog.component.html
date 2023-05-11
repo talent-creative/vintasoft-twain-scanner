@@ -1,15 +1,44 @@
-<div style="text-align: center">
-  <h1>Angular TWAIN Scanning Demo</h1>
-  <h3>Preview of scanned image</h3>
-  <input
-    type="image"
-    id="previewImage"
-    alt="Preview of scanned image"
-    style="border: 1px solid black; width: 350px; height: 350px"
-  />
-  <br />
-  <br />
-  <a href="/assets/vintasoft/VSWebTwainService14_0.zip" download
-    >Download installer of VintaSoft Web TWAIN service</a
-  >
+<div class="main-wrapper">
+  <h1 class="main-header">Angular TWAIN Scanning Demo</h1>
+  <div class="devices-wrapper" *ngIf="!isPreview">
+    <mat-select
+      class="devices"
+      (selectionchange)="onSelect()"
+      placeholder="Select scanner"
+      [(value)]="twainDevice"
+    >
+      <mat-option
+        class="option"
+        *ngFor="let device of devices"
+        [value]="device"
+      >
+        {{ getDeviceName(device) }}
+      </mat-option>
+    </mat-select>
+    <button class="button-scan" mat-raised-button (click)="onScan()">
+      Scan
+    </button>
+  </div>
+
+  <div class="reset" *ngIf="isPreview">
+    <button class="button-reset" mat-raised-button (click)="onReset()">
+      Reset
+    </button>
+  </div>
+
+  <div class="preview-wrapper" *ngIf="isPreview">
+    <h3>Preview of scanned image</h3>
+
+    <input
+      type="image"
+      id="previewImage"
+      alt="Preview of scanned image"
+      style="border: 1px solid black; width: 350px; height: 350px"
+    />
+    <br />
+    <br />
+    <a href="/assets/vintasoft/VSWebTwainService14_0.zip" download
+      >Download installer of VintaSoft Web TWAIN service</a
+    >
+  </div>
 </div>

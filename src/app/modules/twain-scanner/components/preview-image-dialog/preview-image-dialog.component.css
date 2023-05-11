@@ -1,6 +1,39 @@
 :host {
-    z-index: 99990000000 !important;
-    display: block;
-    width: 100vw;
-    height: 100vh;
+  z-index: 1099 !important;
+  display: block;
+  width: 1100px;
+  height: 700px;
+}
+.main-wrapper {
+  padding: 40px;
+  text-align: center;
+}
+.main-header {
+  margin: 20px 0px;
+}
+.devices-wrapper {
+  width: 500px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.devices {
+  width: 100%;
+  cursor: pointer;
+  flex-grow: 1;
+}
+.button-scan {
+  width: 200px;
+  height: 200px;
+  margin: 80px auto;
+}
+.reset {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  margin-left: 160px;
 }
