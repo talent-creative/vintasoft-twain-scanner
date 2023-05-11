@@ -1,0 +1,6 @@
+:host {
+    z-index: 99990000000 !important;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
