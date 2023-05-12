@@ -10,7 +10,10 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
   twainDevice: Vintasoft.Twain.WebTwainDeviceJS | null = null;
   twainDeviceManager: Vintasoft.Twain.WebTwainDeviceManagerJS | null = null;
   isPreview = false;
+  acquiredImage: Vintasoft.Twain.WebAcquiredImageJS | null = null;
+
   constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit() {
     // acquire images from TWAIN scanner
     this.__acquireImageFromTwainScanner();
@@ -62,23 +65,9 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
         this.twainDevice = this.devices[0];
       }
       this.cdr.markForCheck();
-      console.log('dvcss ', this.devices);
     } catch (ex) {
-      console.log(' errr ... ', ex);
       alert(ex);
     }
-    // finally {
-    //   // if (twainDevice != null) {
-    //   //   // close the device
-    //   //   twainDevice.close();
-    //   // }
-    //   // // close the device manager
-    //   // twainDeviceManager.close();
-    // }
-  }
-
-  onSelect() {
-    console.log(' dv ', this.twainDevice);
   }
 
   getDeviceName(device: any) {
@@ -95,7 +84,33 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
     this.isPreview = false;
   }
 
+  onSave() {
+    if (this.acquiredImage !== null) {
+      const dlink: HTMLAnchorElement = document.createElement('a');
+      const date = new Date();
+      const fileName =
+        date.getDate() +
+        '-' +
+        (date.getMonth() + 1) +
+        '-' +
+        date.getFullYear() +
+        '-' +
+        date.getHours() +
+        '-' +
+        date.getMinutes() +
+        '-' +
+        date.getSeconds() +
+        '-' +
+        date.getMilliseconds();
+      dlink.download = 'scanned-' + fileName + '.jpg';
+      dlink.href = this.acquiredImage.getAsBase64String();
+      dlink.click();
+      dlink.remove();
+    }
+  }
+
   onScan() {
+    this.acquiredImage = null;
     this.isPreview = true;
     setTimeout(() => {
       try {
@@ -118,11 +133,10 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
             switch (acquireModalState) {
               case 2: // image is acquired
                 // get acquired image
-                let acquiredImage: Vintasoft.Twain.WebAcquiredImageJS =
-                  acquireModalResult.get_AcquiredImage();
+                this.acquiredImage = acquireModalResult.get_AcquiredImage();
                 // get image as Base64 string
                 let bitmapAsBase64String: string =
-                  acquiredImage.getAsBase64String();
+                  this.acquiredImage.getAsBase64String();
                 // update image preview
                 let previewImageElement: HTMLImageElement =
                   document.getElementById('previewImage') as HTMLImageElement;

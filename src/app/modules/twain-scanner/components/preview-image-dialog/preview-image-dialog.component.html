@@ -3,7 +3,6 @@
   <div class="devices-wrapper" *ngIf="!isPreview">
     <mat-select
       class="devices"
-      (selectionchange)="onSelect()"
       placeholder="Select scanner"
       [(value)]="twainDevice"
     >
@@ -15,7 +14,12 @@
         {{ getDeviceName(device) }}
       </mat-option>
     </mat-select>
-    <button class="button-scan" mat-raised-button (click)="onScan()">
+    <button
+      color="primary"
+      class="button-scan"
+      mat-raised-button
+      (click)="onScan()"
+    >
       Scan
     </button>
   </div>
@@ -35,6 +39,15 @@
       alt="Preview of scanned image"
       style="border: 1px solid black; width: 350px; height: 350px"
     />
+    <br />
+    <button
+      color="primary"
+      class="button-save"
+      mat-raised-button
+      (click)="onSave()"
+    >
+      Save
+    </button>
     <br />
     <br />
     <a href="/assets/vintasoft/VSWebTwainService14_0.zip" download
