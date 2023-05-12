@@ -86,27 +86,32 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
 
   onSave() {
     if (this.acquiredImage !== null) {
-      const dlink: HTMLAnchorElement = document.createElement('a');
-      const date = new Date();
-      const fileName =
-        date.getDate() +
-        '-' +
-        (date.getMonth() + 1) +
-        '-' +
-        date.getFullYear() +
-        '-' +
-        date.getHours() +
-        '-' +
-        date.getMinutes() +
-        '-' +
-        date.getSeconds() +
-        '-' +
-        date.getMilliseconds();
-      dlink.download = 'scanned-' + fileName + '.jpg';
-      dlink.href = this.acquiredImage.getAsBase64String();
-      dlink.click();
-      dlink.remove();
+      const downloadLink: HTMLAnchorElement = document.createElement('a');
+      const fileName = 'scanned-' + this.getCurrentTimeAsString() + '.jpg';
+      downloadLink.download = fileName;
+      downloadLink.href = this.acquiredImage.getAsBase64String();
+      downloadLink.click();
+      downloadLink.remove();
     }
+  }
+
+  getCurrentTimeAsString() {
+    const date = new Date();
+    return (
+      date.getDate() +
+      '-' +
+      (date.getMonth() + 1) +
+      '-' +
+      date.getFullYear() +
+      '-' +
+      date.getHours() +
+      '-' +
+      date.getMinutes() +
+      '-' +
+      date.getSeconds() +
+      '-' +
+      date.getMilliseconds()
+    );
   }
 
   onScan() {
@@ -114,8 +119,6 @@ export class PreviewImageDialogComponent implements OnInit, OnDestroy {
     this.isPreview = true;
     setTimeout(() => {
       try {
-        // get the default TWAIN device
-        // twainDevice = twainDeviceManager.get_DefaultDevice();
         // open TWAIN device (do not display device UI but display dialog with image scanning progress)
         if (this.twainDevice !== null) {
           this.twainDevice.open(false, true);
